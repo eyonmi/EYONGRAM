@@ -835,17 +835,18 @@ Throughout the project, he was professional, patient, and easy to work with. The
           <div class="form-row-2">
             <div class="f-grp">
               <span class="f-lbl">Your Name</span>
-              <input class="f-inp" type="text" placeholder="Fullname" required>
+              <input class="f-inp" type="text" name="name" placeholder="Fullname" required>
             </div>
             <div class="f-grp">
               <span class="f-lbl">Email Address</span>
-              <input class="f-inp" type="email" placeholder="email@example.com" required>
+              <input class="f-inp" type="email" name="email" placeholder="email@example.com" required>
             </div>
           </div>
           <div class="f-grp full">
             <span class="f-lbl">Project Details</span>
-            <textarea class="f-area" placeholder="Tell me about your project, goals, and timeline…" required></textarea>
+            <textarea class="f-area" name="message" placeholder="Tell me about your project, goals, and timeline…" required></textarea>
           </div>
+          <input type="hidden" name="service" id="svcField">
           <div class="form-foot">
             <span class="form-note"><i class="fa-solid fa-lock" style="font-size:10px"></i> Your info stays private</span>
             <button type="submit" class="btn-send">Send Message <i class="fa-solid fa-arrow-right"></i></button>
@@ -1048,14 +1049,30 @@ tVP.addEventListener('touchstart',e=>{tX=e.touches[0].clientX},{passive:true});
 tVP.addEventListener('touchend',e=>{const d=tX-e.changedTouches[0].clientX;if(Math.abs(d)>50)goT(tIdx+(d>0?1:-1))});
 
 /* ── SERVICE PILLS ── */
-function pickSvc(el){document.querySelectorAll('.s-pill').forEach(p=>p.classList.remove('picked'));el.classList.add('picked')}
+function pickSvc(el){document.querySelectorAll('.s-pill').forEach(p=>p.classList.remove('picked'));el.classList.add('picked');document.getElementById('svcField').value=el.textContent.trim()}
 
 /* ── FORM SUBMIT ── */
 function sendMsg(e){
   e.preventDefault();
   const f=document.getElementById('cForm'),s=document.getElementById('fSuccess');
-  f.style.cssText='opacity:0;transition:opacity .3s';
-  setTimeout(()=>{f.style.display='none';s.style.display='flex';},320);
+  const btn=f.querySelector('.btn-send');
+  const orig=btn.innerHTML;
+  btn.disabled=true;btn.innerHTML='Sending…';
+
+  fetch('https://formsubmit.co/ajax/eyonmi37@gmail.com',{
+    method:'POST',
+    headers:{'Accept':'application/json'},
+    body:new FormData(f)
+  })
+  .then(r=>r.json())
+  .then(()=>{
+    f.style.cssText='opacity:0;transition:opacity .3s';
+    setTimeout(()=>{f.style.display='none';s.style.display='flex';},320);
+  })
+  .catch(()=>{
+    btn.disabled=false;btn.innerHTML=orig;
+    alert('Message failed to send. Please try again or email me directly.');
+  });
 }
 </script>
 </body>
