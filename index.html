@@ -1053,7 +1053,11 @@ tVP.addEventListener('touchstart',e=>{tX=e.touches[0].clientX},{passive:true});
 tVP.addEventListener('touchend',e=>{const d=tX-e.changedTouches[0].clientX;if(Math.abs(d)>50)goT(tIdx+(d>0?1:-1))});
 
 /* ── SERVICE PILLS ── */
-function pickSvc(el){document.querySelectorAll('.s-pill').forEach(p=>p.classList.remove('picked'));el.classList.add('picked');document.getElementById('svcField').value=el.textContent.trim()}
+function pickSvc(el){
+  document.querySelectorAll('.s-pill').forEach(p=>p.classList.remove('picked'));
+  el.classList.add('picked');
+  document.getElementById('svcField').value = el.textContent.trim();
+}
 
 /* ── FORM SUBMIT ── */
 function sendMsg(e){
