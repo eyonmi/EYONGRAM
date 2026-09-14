@@ -978,6 +978,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
+  const mainNav = document.getElementById('mainNav');
 
   document.querySelectorAll('.w-ovr-btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
@@ -985,41 +986,22 @@ document.addEventListener('DOMContentLoaded', function () {
       const img = this.closest('.w-thumb').querySelector('.proj-img').src;
       lightboxImg.src = img;
       lightbox.classList.add('on');
+      mainNav.style.display = 'none'; // hide nav
     });
   });
 
   document.getElementById('lightboxClose').addEventListener('click', function (e) {
     e.stopPropagation();
     lightbox.classList.remove('on');
+    mainNav.style.display = ''; // restore nav
   });
 
   lightbox.addEventListener('click', function (e) {
-    if (e.target === this) lightbox.classList.remove('on');
+    if (e.target === this) {
+      lightbox.classList.remove('on');
+      mainNav.style.display = ''; // restore nav
+    }
   });
-  const mainNav = document.getElementById('mainNav');
-
-document.querySelectorAll('.w-ovr-btn').forEach(btn => {
-  btn.addEventListener('click', function (e) {
-    e.stopPropagation();
-    const img = this.closest('.w-thumb').querySelector('.proj-img').src;
-    lightboxImg.src = img;
-    lightbox.classList.add('on');
-    mainNav.style.display = 'none'; // ← hide nav
-  });
-});
-
-document.getElementById('lightboxClose').addEventListener('click', function (e) {
-  e.stopPropagation();
-  lightbox.classList.remove('on');
-  mainNav.style.display = ''; // ← restore nav
-});
-
-lightbox.addEventListener('click', function (e) {
-  if (e.target === this) {
-    lightbox.classList.remove('on');
-    mainNav.style.display = ''; // ← restore nav
-  }
-});
 
 });
 
